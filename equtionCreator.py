@@ -12,8 +12,11 @@ def equationCreator1(paraMatrix,F):
             if j == (paraMatrix.shape[1] -1):
                s = s + "} }  "
             else:
-                s =  s + "} + "
-        if i!=(paraMatrix.shape[1]-1):
+                if paraMatrix[i,j]>0:
+                    s =  s + "} + "
+                else:
+                    s = s + "}  "
+        if i!=(paraMatrix.shape[0]-1):
             s+="\\\\ \t"
         else:
             s += "\\end{array}\\]"
@@ -24,7 +27,14 @@ def equationCreator1(paraMatrix,F):
 
 if __name__ == "__main__":
     import numpy as np
-
-    paraMatrix = np.matrix([[1,2],[3,3]])
+    import pandas as pd
+    import os
+    os.chdir("F:\\普通作业\\多元统计")
+    paraMatrix = pd.read_csv("an.txt", sep='\t')
+    paraMatrix = np.matrix(paraMatrix)
+    paraMatrix = paraMatrix.transpose()
+    #paraMatrix = np.matrix([[1,2],[3,3]])
     s= equationCreator1(paraMatrix,"F")
-    print(s)
+    f=open("output.txt","w")
+    f.write(s)
+    f.close()
